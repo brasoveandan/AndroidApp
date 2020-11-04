@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8C9EFF"
+    tools:context=".todo.person.PersonEditFragment">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:adjustViewBounds="false"
+        app:srcCompat="@android:drawable/ic_menu_save"
+        app:useCompatPadding="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/person_nume"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_name"
+                android:drawableLeft="@drawable/ic_name"
+                android:drawablePadding="2px"
+                android:hint="@string/input_nume"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/person_prenume"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="200dp"
+                android:background="@drawable/custom_input"
+                android:drawableLeft="@drawable/ic_name"
+                android:drawablePadding="2px"
+                android:hint="@string/input_prenume"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/person_telefon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="300dp"
+                android:background="@drawable/custom_input"
+                android:drawableLeft="@android:drawable/ic_menu_call"
+                android:drawablePadding="2px"
+                android:hint="@string/input_telefon"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/person_ocupatie"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="400dp"
+                android:background="@drawable/custom_input"
+                android:drawableLeft="?attr/actionModePasteDrawable"
+                android:drawablePadding="2px"
+                android:hint="@string/input_ocupatie"
+                android:inputType="text"
+                android:text="" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</FrameLayout>

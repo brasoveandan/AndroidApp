@@ -1,12 +1,16 @@
 <resources>
-    <string name="app_name">AndroidApp</string>
+    <string name="app_name">My Agenda</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="person_list_fragment_label">Person List</string>
+    <string name="person_edit_fragment_label">Person Edit</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="person_list_fragment">Person list fragment</string>
+    <string name="person_edit_fragment">Person edit fragment</string>
+    <string name="input_nume">Nume</string>
+    <string name="input_prenume">Prenume</string>
+    <string name="input_telefon">Telefon</string>
+    <string name="input_ocupatie">Ocupatie</string>
 </resources>

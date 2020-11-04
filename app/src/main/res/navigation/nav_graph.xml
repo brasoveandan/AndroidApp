@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/PersonListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="ro.ubbcluj.scs.bdir2463.androidapp.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/PersonListFragment"
+        android:name="ro.ubbcluj.scs.bdir2463.androidapp.todo.persons.PersonListFragment"
+        android:label="@string/person_list_fragment_label"
+        tools:layout="@layout/fragment_person_list">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_PersonListFragment_to_PersonEditFragment"
+            app:destination="@id/PersonEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="ro.ubbcluj.scs.bdir2463.androidapp.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/PersonEditFragment"
+        android:name="ro.ubbcluj.scs.bdir2463.androidapp.todo.person.PersonEditFragment"
+        android:label="@string/person_edit_fragment_label"
+        tools:layout="@layout/fragment_person_edit">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_PersonEditFragment_to_PersonListFragment"
+            app:destination="@id/PersonListFragment" />
     </fragment>
 </navigation>
