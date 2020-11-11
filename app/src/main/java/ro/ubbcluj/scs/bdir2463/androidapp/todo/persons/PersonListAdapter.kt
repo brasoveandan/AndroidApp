@@ -31,7 +31,7 @@ class PersonListAdapter(
         onPersonClick = View.OnClickListener { view ->
             val person = view.tag as Person
             fragment.findNavController().navigate(R.id.PersonEditFragment, Bundle().apply {
-                putString(PersonEditFragment.PERSON_ID, person.id)
+                putString(PersonEditFragment.PERSON_ID, person._id)
             })
         }
     }
@@ -47,13 +47,13 @@ class PersonListAdapter(
         Log.v(TAG, "onBindViewHolder $position")
         val person = persons[position]
         holder.itemView.tag = person
-        holder.nameView.text = person.nume + " " + person.prenume
+        holder.textView.text = person.nume + " " + person.prenume
         holder.itemView.setOnClickListener(onPersonClick)
     }
 
     override fun getItemCount() = persons.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val nameView: TextView = view.nume
+        val textView: TextView = view.nume
     }
 }

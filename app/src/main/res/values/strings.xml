@@ -13,4 +13,11 @@
     <string name="input_prenume">Prenume</string>
     <string name="input_telefon">Telefon</string>
     <string name="input_ocupatie">Ocupatie</string>
+
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Login</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be not empty</string>
 </resources>

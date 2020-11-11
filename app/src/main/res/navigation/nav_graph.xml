@@ -6,6 +6,12 @@
     app:startDestination="@id/PersonListFragment">
 
     <fragment
+        android:id="@+id/fragment_login"
+        android:name="ro.ubbcluj.scs.bdir2463.androidapp.auth.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
         android:id="@+id/PersonListFragment"
         android:name="ro.ubbcluj.scs.bdir2463.androidapp.todo.persons.PersonListFragment"
         android:label="@string/person_list_fragment_label"

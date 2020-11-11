@@ -1,69 +1,61 @@
 package ro.ubbcluj.scs.bdir2463.androidapp.todo.person
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ro.ubbcluj.scs.bdir2463.androidapp.core.Result
 import ro.ubbcluj.scs.bdir2463.androidapp.core.TAG
 import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.Person
 import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.PersonRepository
+import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.local.TodoDatabase
 
-
-class PersonEditViewModel : ViewModel() {
-    private val mutablePerson =
-        MutableLiveData<Person>().apply { value = Person("", "", "", "", "") }
+class PersonEditViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableFetching = MutableLiveData<Boolean>().apply { value = false }
     private val mutableCompleted = MutableLiveData<Boolean>().apply { value = false }
     private val mutableException = MutableLiveData<Exception>().apply { value = null }
 
-    val person: LiveData<Person> = mutablePerson
     val fetching: LiveData<Boolean> = mutableFetching
     val fetchingError: LiveData<Exception> = mutableException
     val completed: LiveData<Boolean> = mutableCompleted
 
-    fun loadPerson(personId: String) {
-        viewModelScope.launch {
-            Log.i(TAG, "loadPerson...")
-            mutableFetching.value = true
-            mutableException.value = null
-            try {
-                mutablePerson.value = PersonRepository.load(personId)
-                Log.i(TAG, "loadPerson succeeded")
-                mutableFetching.value = false
-            } catch (e: Exception) {
-                Log.w(TAG, "loadPerson failed", e)
-                mutableException.value = e
-                mutableFetching.value = false
-            }
-        }
+    val personRepository: PersonRepository
+
+    init {
+        val personDao = TodoDatabase.getDatabase(application, viewModelScope).personDao()
+        personRepository = PersonRepository(personDao)
     }
 
-    fun saveOrUpdatePerson(nume: String, prenume: String, telefon: String, ocupatie: String) {
+    fun getPersonById(personId: String): LiveData<Person> {
+        Log.v(TAG, "getPersonById...")
+        return personRepository.getById(personId)
+    }
+
+    fun saveOrUpdatePerson(person: Person) {
         viewModelScope.launch {
-            Log.i(TAG, "saveOrUpdatePerson...");
-            val person = mutablePerson.value ?: return@launch
-            person.nume = nume
-            person.prenume = prenume
-            person.telefon = telefon
-            person.ocupatie = ocupatie
+            Log.v(TAG, "saveOrUpdatePerson...");
             mutableFetching.value = true
             mutableException.value = null
-            try {
-                if (person.id.isNotEmpty()) {
-                    mutablePerson.value = PersonRepository.update(person)
-                } else {
-                    mutablePerson.value = PersonRepository.save(person)
-                }
-                Log.i(TAG, "saveOrUpdatePerson succeeded");
-                mutableCompleted.value = true
-                mutableFetching.value = false
-            } catch (e: Exception) {
-                Log.w(TAG, "saveOrUpdatePerson failed", e);
-                mutableException.value = e
-                mutableFetching.value = false
+            val result: Result<Person>
+            if (person._id.isNotEmpty()) {
+                result = personRepository.update(person)
+            } else {
+                result = personRepository.save(person)
             }
+            when (result) {
+                is Result.Success -> {
+                    Log.d(TAG, "saveOrUpdatePerson succeeded");
+                }
+                is Result.Error -> {
+                    Log.w(TAG, "saveOrUpdatePerson failed", result.exception);
+                    mutableException.value = result.exception
+                }
+            }
+            mutableCompleted.value = true
+            mutableFetching.value = false
         }
     }
 }

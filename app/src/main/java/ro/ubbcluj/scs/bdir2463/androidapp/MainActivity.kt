@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(person: MenuItem): Boolean {
-        return when (person.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(person)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

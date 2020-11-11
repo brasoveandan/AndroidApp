@@ -1,46 +1,49 @@
 package ro.ubbcluj.scs.bdir2463.androidapp.todo.persons
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ro.ubbcluj.scs.bdir2463.androidapp.core.Result
 import ro.ubbcluj.scs.bdir2463.androidapp.core.TAG
 import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.Person
 import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.PersonRepository
+import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.local.TodoDatabase
 
-
-class PersonListViewModel : ViewModel() {
-    private val mutablePersons = MutableLiveData<List<Person>>().apply { value = emptyList() }
+class PersonListViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableLoading = MutableLiveData<Boolean>().apply { value = false }
     private val mutableException = MutableLiveData<Exception>().apply { value = null }
 
-    val persons: LiveData<List<Person>> = mutablePersons
+    val persons: LiveData<List<Person>>
     val loading: LiveData<Boolean> = mutableLoading
     val loadingError: LiveData<Exception> = mutableException
 
-    fun createPerson(position: Int): Unit {
-        val list = mutableListOf<Person>()
-        list.addAll(mutablePersons.value!!)
-        list.add(Person(position.toString(), "Person " + position, "", "", ""))
-        mutablePersons.value = list
+    val personRepository: PersonRepository
+
+    init {
+        val personDao = TodoDatabase.getDatabase(application, viewModelScope).personDao()
+        personRepository = PersonRepository(personDao)
+        persons = personRepository.persons
     }
 
-    fun loadPersons() {
+    fun refresh() {
         viewModelScope.launch {
-            Log.v(TAG, "loadPersons...");
+            Log.v(TAG, "refresh...");
             mutableLoading.value = true
             mutableException.value = null
-            try {
-                mutablePersons.value = PersonRepository.loadAll()
-                Log.d(TAG, "loadPersons succeeded");
-                mutableLoading.value = false
-            } catch (e: Exception) {
-                Log.w(TAG, "loadPersons failed", e);
-                mutableException.value = e
-                mutableLoading.value = false
+            when (val result = personRepository.refresh()) {
+                is Result.Success -> {
+                    Log.d(TAG, "refresh succeeded");
+                }
+                is Result.Error -> {
+                    Log.w(TAG, "refresh failed", result.exception);
+                    mutableException.value = result.exception
+                }
             }
+            mutableLoading.value = false
         }
     }
 }

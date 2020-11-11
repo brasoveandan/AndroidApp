@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_person_list.*
 import ro.ubbcluj.scs.bdir2463.androidapp.R
+import ro.ubbcluj.scs.bdir2463.androidapp.auth.data.AuthRepository
 import ro.ubbcluj.scs.bdir2463.androidapp.core.TAG
 
 class PersonListFragment : Fragment() {
@@ -32,6 +33,10 @@ class PersonListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
+        if (!AuthRepository.isLoggedIn) {
+            findNavController().navigate(R.id.fragment_login)
+            return;
+        }
         setupPersonList()
         fab.setOnClickListener {
             Log.v(TAG, "add new person")
@@ -58,7 +63,7 @@ class PersonListFragment : Fragment() {
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
         })
-        personsModel.loadPersons()
+        personsModel.refresh()
     }
 
     override fun onDestroy() {
