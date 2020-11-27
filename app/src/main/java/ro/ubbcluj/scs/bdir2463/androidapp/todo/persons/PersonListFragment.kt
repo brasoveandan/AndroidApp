@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_person_list.*
 import ro.ubbcluj.scs.bdir2463.androidapp.R
 import ro.ubbcluj.scs.bdir2463.androidapp.auth.data.AuthRepository
+import ro.ubbcluj.scs.bdir2463.androidapp.core.Constants
 import ro.ubbcluj.scs.bdir2463.androidapp.core.TAG
 
 class PersonListFragment : Fragment() {
@@ -33,14 +34,19 @@ class PersonListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
-        if (!AuthRepository.isLoggedIn) {
+        Log.v(TAG, Constants.instance()?.fetchValueString("token").toString())
+        if (Constants.instance()?.fetchValueString("token") == null) {
             findNavController().navigate(R.id.fragment_login)
-            return;
         }
         setupPersonList()
         fab.setOnClickListener {
             Log.v(TAG, "add new person")
             findNavController().navigate(R.id.PersonEditFragment)
+        }
+        logout.setOnClickListener {
+            Log.v(TAG, "LOGOUT")
+            AuthRepository.logout()
+            findNavController().navigate(R.id.fragment_login)
         }
     }
 

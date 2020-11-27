@@ -58,4 +58,23 @@ class PersonEditViewModel(application: Application) : AndroidViewModel(applicati
             mutableFetching.value = false
         }
     }
+
+    fun deletePerson(personId: String) {
+        viewModelScope.launch {
+            mutableFetching.value = true
+            mutableException.value = null
+            val result: Result<Boolean> = personRepository.delete(personId)
+            when (result) {
+                is Result.Success -> {
+                    Log.d(TAG, "delete succeeded");
+                }
+                is Result.Error -> {
+                    Log.w(TAG, "delete failed", result.exception);
+                    mutableException.value = result.exception
+                }
+            }
+            mutableCompleted.value = true
+            mutableFetching.value = false
+        }
+    }
 }

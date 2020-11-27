@@ -18,6 +18,9 @@ interface PersonDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(person: Person)
 
+    @Query("DELETE FROM persons WHERE _id=:id")
+    suspend fun delete(id: String)
+
     @Query("DELETE FROM persons")
     suspend fun deleteAll()
 }

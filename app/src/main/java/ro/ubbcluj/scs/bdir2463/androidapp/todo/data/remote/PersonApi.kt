@@ -1,5 +1,6 @@
 package ro.ubbcluj.scs.bdir2463.androidapp.todo.data.remote
 
+import retrofit2.Response
 import retrofit2.http.*
 import ro.ubbcluj.scs.bdir2463.androidapp.core.Api
 import ro.ubbcluj.scs.bdir2463.androidapp.todo.data.Person
@@ -19,6 +20,9 @@ object PersonApi {
         @Headers("Content-Type: application/json")
         @PUT("/api/person/{id}")
         suspend fun update(@Path("id") personId: String, @Body person: Person): Person
+
+        @DELETE("/api/person/{id}")
+        suspend fun delete(@Path("id") personId: String): Response<Unit>
     }
 
     val service: Service = Api.retrofit.create(Service::class.java)

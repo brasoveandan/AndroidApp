@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import ro.ubbcluj.scs.bdir2463.androidapp.core.Constants
 import ro.ubbcluj.scs.bdir2463.androidapp.core.TAG
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        Constants.instance(this.applicationContext);
         Log.i(TAG, "onCreate")
     }
 

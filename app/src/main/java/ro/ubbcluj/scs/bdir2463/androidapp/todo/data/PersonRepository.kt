@@ -44,4 +44,15 @@ class PersonRepository(private val personDao: PersonDao) {
             return Result.Error(e)
         }
     }
+
+    suspend fun delete(personId: String): Result<Boolean> {
+        try {
+
+            PersonApi.service.delete(personId)
+            personDao.delete(id = personId)
+            return Result.Success(true)
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
 }
